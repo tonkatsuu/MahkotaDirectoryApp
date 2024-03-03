@@ -4,13 +4,13 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import FileUpload from "./FileUpload";
 import Checkbox from "@mui/material/Checkbox";
 import { useFormContext, Controller } from "react-hook-form";
+import dayjs from "dayjs";
 
 const Input = ({ input }) => {
   const { register, control } = useFormContext();
@@ -64,10 +64,22 @@ const Input = ({ input }) => {
         );
       case "date":
         return (
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer components={["DatePicker"]}>
-              <DatePicker {...register(input.id)} />
-            </DemoContainer>
+          <LocalizationProvider name={input.id} dateAdapter={AdapterDayjs}>
+            <Controller
+              name={input.id}
+              control={control}
+              render={({ field }) => (
+                <DatePicker
+                  key={field.value}
+                  name={input.id}
+                  {...field}
+                  value={dayjs(field.value)}
+                  onChange={(date) => {
+                    field.onChange(dayjs(date).format("MM/DD/YYYY"));
+                  }}
+                />
+              )}
+            />
           </LocalizationProvider>
         );
 
