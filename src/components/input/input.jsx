@@ -9,29 +9,24 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import FileUpload from "./FileUpload";
-import IOSSwitch from "./CheckBox";
 import Checkbox from "@mui/material/Checkbox";
+import { useFormContext } from "react-hook-form";
 
-const Input = ({ input, setUploadedFiles }) => {
+const Input = ({ input }) => {
+  const { register } = useFormContext();
+
   /* Using useMemo to memoise the content, it renders only when any of its dependency change */
   const content = useMemo(() => {
     switch (input.type) {
       case "text":
-        return (
-          <input placeholder={input.label} name={input.id} id={input.id} />
-        );
+        return <input placeholder={input.label} {...register(input.id)} />;
       case "select": {
         return (
           <FormControl
             variant="filled"
             sx={{ padding: "0rem", m: 0, minWidth: 150 }}
           >
-            <Select
-              name={input.id}
-              id={input.id}
-              value={input.value}
-              onChange={input.onChange}
-            >
+            <Select {...register(input.id)}>
               {input.options.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
@@ -45,30 +40,20 @@ const Input = ({ input, setUploadedFiles }) => {
         return (
           <FormControlLabel
             for={input.id}
-            control={<Checkbox name={input.id} id={input.id} sx={{ m: 1 }} />}
+            control={<Checkbox {...register(input.id)} sx={{ m: 1 }} />}
           />
         );
       case "date":
         return (
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={["DatePicker"]}>
-              <DatePicker name={input.id} id={input.id} />
+              <DatePicker {...register(input.id)} />
             </DemoContainer>
           </LocalizationProvider>
         );
+
       case "file":
-        return (
-          <FileUpload
-            input={input}
-            id={input.id}
-            onChange={(downloadUrl) => {
-              setUploadedFiles((prev) => ({
-                ...prev,
-                [input.id]: downloadUrl,
-              }));
-            }}
-          />
-        );
+        return <FileUpload input={input} {...register(input.id)} />;
       default:
         return null;
     }

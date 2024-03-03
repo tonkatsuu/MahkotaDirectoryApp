@@ -3,9 +3,13 @@ import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUpload
 import { styled } from "@mui/material/styles";
 import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { useState } from "react";
+import { useController } from "react-hook-form";
 
-export function FileUpload({ input, onChange }) {
+export function FileUpload({ input, ...inputFieldProps }) {
+  const { field } = useController({ name: input.id });
+
   const [uploadStatus, setUploadStatus] = useState("Idle");
+
   function handleUploadFile(e) {
     const file = e.target.files[0];
 
@@ -20,7 +24,8 @@ export function FileUpload({ input, onChange }) {
       .then((downloadURL) => {
         setUploadStatus("Uploaded!");
         // You will get the download url here
-        onChange(downloadURL);
+
+        field.onChange(downloadURL);
       })
       .catch((error) => {
         setUploadStatus("Error!");
@@ -30,16 +35,7 @@ export function FileUpload({ input, onChange }) {
         setUploadStatus("Uploaded!");
       });
   }
-  /*const uploadFile = () => {
-  const storage = getStorage();
-  const storageRef = ref (storage, 'images/'+ file.name);
-  uploadBytes(storageRef, file).then((snapshot)=>{
-    console.log('Upload completed! ');
-  });
-  getDownloadURL(storageRef.snapshot.ref).then((downloadURL=>{
-    console.log('URL: ', downloadURL);
-  }));  
-  }*/
+
   const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
     clipPath: "inset(50%)",
@@ -64,7 +60,7 @@ export function FileUpload({ input, onChange }) {
           Upload
           <VisuallyHiddenInput
             type="file"
-            id={input.id}
+            {...inputFieldProps}
             onChange={handleUploadFile}
           />
         </Button>
