@@ -1,77 +1,126 @@
-export const userInputs = [
-    {
-      id: "username",
-      label: "Username",
-      type: "text",
-      placeholder: "john_doe",
-    },
-    {
-      id: "displayName",
-      label: "Name and surname",
-      type: "text",
-      placeholder: "John Doe",
-    },
-    {
-      id: "email",
-      label: "Email",
-      type: "mail",
-      placeholder: "john_doe@gmail.com",
-    },
-    {
-      id: "phone",
-      label: "Phone",
-      type: "text",
-      placeholder: "+1 234 567 89",
-    },
-    {
-      id: "password",
-      label: "Password",
-      type: "password",
-    },
-    {
-      id: "address",
-      label: "Address",
-      type: "text",
-      placeholder: "Elton St. 216 NewYork",
-    },
-    {
-      id: "country",
-      label: "Country",
-      type: "text",
-      placeholder: "USA",
-    },
-  ];
-  
-  export const productInputs = [
-    {
-      id: 1,
-      label: "Title",
-      type: "text",
-      placeholder: "Apple Macbook Pro",
-    },
-    {
-      id: 2,
-      label: "Description",
-      type: "text",
-      placeholder: "Description",
-    },
-    {
-      id: 3,
-      label: "Category",
-      type: "text",
-      placeholder: "Computers",
-    },
-    {
-      id: 4,
-      label: "Price",
-      type: "text",
-      placeholder: "100",
-    },
-    {
-      id: 5,
-      label: "Stock",
-      type: "text",
-      placeholder: "in stock",
-    },
-  ];
-  
+export const shopInputs = [
+  {
+    id: "logo_image",
+    label: "Logo Image",
+    type: "file",
+  },
+  {
+    id: "shop_image",
+    label: "Shop Image",
+    type: "file",
+  },
+  {
+    id: "tenant_name",
+    label: "Tenant Name",
+    type: "text",
+    placeholder: "Insert Name",
+  },
+  {
+    id: "level",
+    label: "Level",
+    type: "text",
+    placeholder: "Insert Level",
+  },
+  {
+    id: "unit_no",
+    label: "Unit No",
+    type: "text",
+    placeholder: "Insert Unit No",
+  },
+  {
+    id: "size",
+    label: "Size",
+    type: "text",
+    placeholder: "Insert Size",
+  },
+  {
+    id: "entrance",
+    label: "Entrance",
+    type: "checkbox",
+  },
+  {
+    id: "category",
+    label: "Category",
+    type: "select",
+    options: [
+      { value: "Home and Living", label: "Home & Living" },
+      { value: "Digital Lifestyle", label: "Digital Lifestyle" },
+      { value: "Fashion", label: "Fashion" },
+    ],
+  },
+  {
+    id: "description",
+    label: "Description",
+    type: "text",
+    placeholder: "Insert Description",
+  },
+];
+
+export const categoryInputs = [
+  {
+    id: "category_name",
+    label: "Name",
+    type: "text",
+    placeholder: "Insert Category",
+  },
+];
+
+export const amenityInputs = [
+  {
+    id: "amenity_name",
+    label: "Amenity Name",
+    type: "text",
+    placeholder: "Insert Name",
+  },
+  {
+    id: "level",
+    label: "Level",
+    type: "text",
+    placeholder: "Insert Level",
+  },
+  {
+    id: "unit_no",
+    label: "Unit No",
+    type: "text",
+    placeholder: "Insert Unit No",
+  },
+  {
+    id: "size",
+    label: "Size",
+    type: "text",
+    placeholder: "Insert Size",
+  },
+];
+
+export const eventInputs = [
+  {
+    id: "event_or_promotion",
+    label: "Event/Promotion",
+    type: "select",
+    options: [
+      { value: "Event", label: "Event" },
+      { value: "Promotion", label: "Promotion" },
+    ],
+  },
+  {
+    id: "name",
+    label: "Name",
+    type: "text",
+    placeholder: "Insert Event/Promotion",
+  },
+  {
+    id: "start_date",
+    label: "Start Date",
+    type: "date",
+  },
+  {
+    id: "end_date",
+    label: "End Date",
+    type: "date",
+  },
+  {
+    id: "media",
+    label: "Media",
+    type: "file",
+  },
+];

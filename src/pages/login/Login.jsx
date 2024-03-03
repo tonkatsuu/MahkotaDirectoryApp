@@ -3,16 +3,17 @@ import "./login.scss";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useNavigate } from "react-router-dom";
-import {AuthContext} from "../../context/AuthContext"
+import { AuthContext } from "../../context/AuthContext";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [error, setError] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const navitage = useNavigate()
+  const navitage = useNavigate();
 
-  const {dispatch} = useContext(AuthContext)
+  const { dispatch } = useContext(AuthContext);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -21,8 +22,8 @@ const Login = () => {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        dispatch({type:"LOGIN", payload:user})
-        navitage("/")
+        dispatch({ type: "LOGIN", payload: user });
+        navitage("/");
       })
       .catch((error) => {
         setError(true);
@@ -43,6 +44,10 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <button type="submit">Login</button>
+        <br></br>
+        <Link to="/create-account">
+          <button>Create a new account</button>
+        </Link>
         {error && <span>Wrong email or password!</span>}
       </form>
     </div>

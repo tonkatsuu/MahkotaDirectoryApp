@@ -15,12 +15,12 @@ const Widget = ({ type }) => {
   let data;
 
   switch (type) {
-    case "user":
+    case "shops":
       data = {
         title: "USERS",
         isMoney: false,
         link: "See all users",
-        query:"users",
+        query: "users",
         icon: (
           <PersonOutlinedIcon
             className="icon"
@@ -64,7 +64,7 @@ const Widget = ({ type }) => {
     case "product":
       data = {
         title: "PRODUCTS",
-        query:"products",
+        query: "products",
         link: "See details",
         icon: (
           <AccountBalanceWalletOutlinedIcon
@@ -103,7 +103,8 @@ const Widget = ({ type }) => {
 
       setAmount(lastMonthData.docs.length);
       setDiff(
-        ((lastMonthData.docs.length - prevMonthData.docs.length) / prevMonthData.docs.length) *
+        ((lastMonthData.docs.length - prevMonthData.docs.length) /
+          prevMonthData.docs.length) *
           100
       );
     };
@@ -121,7 +122,7 @@ const Widget = ({ type }) => {
       </div>
       <div className="right">
         <div className={`percentage ${diff < 0 ? "negative" : "positive"}`}>
-          {diff < 0 ? <KeyboardArrowDownIcon/> : <KeyboardArrowUpIcon/> }
+          {diff < 0 ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
           {diff} %
         </div>
         {data.icon}

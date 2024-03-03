@@ -34,13 +34,12 @@
         flex: 2;
 
         form {
-          display: flex;
-          flex-wrap: wrap;
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
           gap: 30px;
           justify-content: space-around;
-
+          padding-left: 10px;
           .formInput {
-            width: 40%;
 
             label {
               display: flex;
@@ -60,7 +59,7 @@
             }
           }
 
-          button {
+          .buttonStyle {
             width: 150px;
             padding: 10px;
             border: none;
@@ -70,10 +69,12 @@
             cursor: pointer;
             margin-top: 10px;
 
-            &:disabled{
-              background-color: rgba(3, 92, 92, 0.322);
-              cursor: not-allowed;
-            }
+          }
+          .uploadStatus{
+            margin-top:5px;
+            font-weight: bold;
+            font-size: 14px;
+            color:green;
           }
         }
       }
