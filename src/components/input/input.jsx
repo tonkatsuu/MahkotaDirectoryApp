@@ -10,10 +10,10 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import FileUpload from "./FileUpload";
 import Checkbox from "@mui/material/Checkbox";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, Controller } from "react-hook-form";
 
 const Input = ({ input }) => {
-  const { register } = useFormContext();
+  const { register, control } = useFormContext();
 
   /* Using useMemo to memoise the content, it renders only when any of its dependency change */
   const content = useMemo(() => {
@@ -26,13 +26,19 @@ const Input = ({ input }) => {
             variant="filled"
             sx={{ padding: "0rem", m: 0, minWidth: 150 }}
           >
-            <Select {...register(input.id)}>
-              {input.options.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </Select>
+            <Controller
+              name={input.id}
+              control={control}
+              render={({ field }) => (
+                <Select key={field.value} defaultValue={field.value} {...field}>
+                  {input.options.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              )}
+            />
           </FormControl>
         );
       }
@@ -40,7 +46,20 @@ const Input = ({ input }) => {
         return (
           <FormControlLabel
             for={input.id}
-            control={<Checkbox {...register(input.id)} sx={{ m: 1 }} />}
+            control={
+              <Controller
+                name={input.id}
+                control={control}
+                render={({ field }) => (
+                  <Checkbox
+                    key={field.value}
+                    sx={{ m: 1 }}
+                    {...field}
+                    checked={field.value}
+                  />
+                )}
+              />
+            }
           />
         );
       case "date":
@@ -57,10 +76,10 @@ const Input = ({ input }) => {
       default:
         return null;
     }
-  }, []);
+  }, [register, input, control]);
 
   return (
-    <div className="formInput" key={input.id}>
+    <div className="formInput">
       <label>{input.label}</label>
       {content}
     </div>

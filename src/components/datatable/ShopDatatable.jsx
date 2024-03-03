@@ -44,7 +44,6 @@ const Datatable = () => {
       headerName: "Action",
       width: 150,
       renderCell: (params) => {
-        //console.log(params);
         return (
           <div className="cellAction">
             <Link

@@ -29,7 +29,7 @@ export const shopColumns = [
     headerName: "Entrance",
     width: 150,
     renderCell: (params) => {
-      return <IOSSwitch checked={params.value === "on"} />;
+      return <IOSSwitch checked={params.value} />;
     },
   },
   {
