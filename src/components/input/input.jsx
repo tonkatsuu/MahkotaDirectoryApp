@@ -11,6 +11,7 @@ import FileUpload from "./FileUpload";
 import Checkbox from "@mui/material/Checkbox";
 import { useFormContext, Controller } from "react-hook-form";
 import dayjs from "dayjs";
+import Reference from "./Reference";
 
 const Input = ({ input }) => {
   const { register, control } = useFormContext();
@@ -85,6 +86,9 @@ const Input = ({ input }) => {
 
       case "file":
         return <FileUpload input={input} {...register(input.id)} />;
+
+      case "reference":
+        return <Reference input={input} />;
       default:
         return null;
     }
@@ -92,7 +96,9 @@ const Input = ({ input }) => {
 
   return (
     <div className="formInput">
-      <label>{input.label}</label>
+      <label>
+        <b>{input.label}</b>
+      </label>
       {content}
     </div>
   );

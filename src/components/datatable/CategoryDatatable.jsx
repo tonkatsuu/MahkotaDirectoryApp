@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase";
+import { toast } from "react-toastify";
 
 const Datatable = () => {
   const [data, setData] = useState([]);
@@ -31,8 +32,9 @@ const Datatable = () => {
 
   const handleDelete = async (id) => {
     try {
-      await deleteDoc(doc(db, "users", id));
+      await deleteDoc(doc(db, "categories", id));
       setData(data.filter((item) => item.id !== id));
+      toast.success("Entity deleted successfully!");
     } catch (err) {
       console.log(err);
     }

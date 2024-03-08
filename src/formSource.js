@@ -41,12 +41,9 @@ export const shopInputs = [
   {
     id: "category",
     label: "Category",
-    type: "select",
-    options: [
-      { value: "Home and Living", label: "Home & Living" },
-      { value: "Digital Lifestyle", label: "Digital Lifestyle" },
-      { value: "Fashion", label: "Fashion" },
-    ],
+    type: "reference",
+    collectionName: "categories",
+    labelKey: "category_name",
   },
   {
     id: "description",

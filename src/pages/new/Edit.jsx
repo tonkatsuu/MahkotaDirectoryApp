@@ -42,10 +42,21 @@ const Edit = ({ inputs, title, collectionName }) => {
     //     formData[input.id] = form.get(input.id);
     //   }
     // });
+    function sanitizeData(data) {
+      const finalData = {};
 
+      for (const [key, value] of Object.entries(data)) {
+        if (typeof value === "undefined") continue;
+
+        finalData[key] = value;
+      }
+
+      return finalData;
+    }
+    const finalData = sanitizeData(values);
     try {
       // Use the correct document reference in updateDoc
-      await updateDoc(doc(db, collectionName, params.id), values);
+      await updateDoc(doc(db, collectionName, params.id), finalData);
       navigate(-1);
       toast.success("Entity updated successfully!");
     } catch (error) {

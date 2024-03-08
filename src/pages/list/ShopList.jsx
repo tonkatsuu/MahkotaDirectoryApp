@@ -1,7 +1,7 @@
 import "./list.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import DatatableNavbar from "../../components/navbar/DatatableNavbar";
-import Datatable from "../../components/datatable/AmenityDatatable";
+import Datatable from "../../components/datatable/ShopDatatable";
 
 const List = () => {
   return (

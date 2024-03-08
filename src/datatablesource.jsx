@@ -1,12 +1,13 @@
 import IOSSwitch from "./components/input/CheckBox";
+import ReferencePreview from "./components/reference-preview/ReferencePreview";
 
 export const shopColumns = [
   {
     field: "logo_image",
     headerName: "Logo Image",
-    width: 200,
+    width: 100,
     renderCell: (params) => {
-      return <img src={params.value} height="200" width="200" />;
+      return <img src={params.value} height="80" width="80" />;
     },
   },
   {
@@ -41,6 +42,13 @@ export const shopColumns = [
     field: "category",
     headerName: "Category",
     width: 150,
+    renderCell: (params) => (
+      <ReferencePreview
+        id={params.value}
+        collectionName="categories"
+        labelKey="category_name"
+      />
+    ),
   },
   {
     field: "description",
@@ -50,9 +58,9 @@ export const shopColumns = [
   {
     field: "shop_image",
     headerName: "Shop Image",
-    width: 200,
+    width: 100,
     renderCell: (params) => {
-      return <img src={params.value} height="200" width="200" />;
+      return <img src={params.value} height="80" width="80" />;
     },
   },
 ];

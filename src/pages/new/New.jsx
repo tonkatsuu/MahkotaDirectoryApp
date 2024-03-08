@@ -31,7 +31,19 @@ const New = ({ inputs, title, collectionName }) => {
   // };
 
   async function handleFormSubmit(values) {
-    await addDoc(collection(db, collectionName), values);
+    function sanitizeData(data) {
+      const finalData = {};
+
+      for (const [key, value] of Object.entries(data)) {
+        if (!value) continue;
+
+        finalData[key] = value;
+      }
+
+      return finalData;
+    }
+    const finalData = sanitizeData(values);
+    await addDoc(collection(db, collectionName), finalData);
     navigate(-1);
     toast.success("Entity created successfully!");
   }

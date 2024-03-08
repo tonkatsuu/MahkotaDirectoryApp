@@ -1,5 +1,6 @@
 import Button from "@mui/material/Button";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
+import RemoveIcon from "@mui/icons-material/Remove";
 import { styled } from "@mui/material/styles";
 import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { useState } from "react";
@@ -50,6 +51,14 @@ export function FileUpload({ input, ...inputFieldProps }) {
 
   return (
     <div>
+      {field.value ? (
+        <div className="image_box">
+          <img src={field.value} alt={input.label} className="edit_image" />
+        </div>
+      ) : (
+        <EmptyImage />
+      )}
+
       <label htmlFor={input.id}>
         <Button
           className="buttonStyle"
@@ -64,7 +73,21 @@ export function FileUpload({ input, ...inputFieldProps }) {
             onChange={handleUploadFile}
           />
         </Button>
+        {field.value && (
+          <Button
+            className="buttonStyle"
+            component="label"
+            variant="contained"
+            startIcon={<RemoveIcon />}
+            onClick={() => {
+              field.onChange(null);
+            }}
+          >
+            Remove
+          </Button>
+        )}
       </label>
+
       <div className="uploadStatus">
         {uploadStatus !== "Idle" ? <p>{uploadStatus}</p> : null}
       </div>
@@ -73,3 +96,11 @@ export function FileUpload({ input, ...inputFieldProps }) {
 }
 
 export default FileUpload;
+
+function EmptyImage() {
+  return (
+    <div className="image_box">
+      <p>No image uploaded.</p>
+    </div>
+  );
+}
