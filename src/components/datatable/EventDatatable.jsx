@@ -80,7 +80,7 @@ const Datatable = () => {
         pageSize={10}
         rowsPerPageOptions={[10]}
         checkboxSelection
-        getRowHeight={() => 200}
+        getRowHeight={() => 80}
       />
     </div>
   );

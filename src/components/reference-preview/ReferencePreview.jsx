@@ -6,14 +6,16 @@ export default function ReferencePreview({ id, collectionName, labelKey }) {
   const [item, setItem] = useState(undefined);
 
   useEffect(async () => {
-    try {
-      const dbDoc = await getDoc(doc(db, collectionName, id));
-      if (dbDoc.exists()) {
-        const data = dbDoc.data();
-        setItem(data);
+    if (id) {
+      try {
+        const dbDoc = await getDoc(doc(db, collectionName, id));
+        if (dbDoc.exists()) {
+          const data = dbDoc.data();
+          setItem(data);
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
   }, []);
 

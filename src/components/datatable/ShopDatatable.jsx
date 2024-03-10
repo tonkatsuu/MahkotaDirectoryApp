@@ -3,10 +3,12 @@ import { DataGrid } from "@mui/x-data-grid";
 import { shopColumns } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase";
 import { toast } from "react-toastify";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import { deleteEntryFromDb, duplicateEntry } from "../../utils/database";
+import { omit } from "lodash";
 
 const Datatable = () => {
   const [data, setData] = useState([]);
@@ -32,21 +34,19 @@ const Datatable = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    try {
-      await deleteDoc(doc(db, "shops", id));
-      setData(data.filter((item) => item.id !== id));
-      toast.success("Entity deleted successfully!");
-    } catch (err) {
-      console.log(err);
-    }
+    await deleteEntryFromDb("shops", id, () => {
+      toast.success("Shop deleted successfully!");
+    });
   };
 
   const actionColumn = [
     {
       field: "id",
       headerName: "Action",
-      width: 150,
+      width: 230,
       renderCell: (params) => {
+        console.log(params.row);
+
         return (
           <div className="cellAction">
             <Link
@@ -61,6 +61,17 @@ const Datatable = () => {
             >
               Delete
             </div>
+            <div
+              className="duplicateButton"
+              onClick={(e) => {
+                e.preventDefault();
+                duplicateEntry("shops", omit(params.row, "id"), () => {
+                  toast.success("Shop duplicated successfully!");
+                });
+              }}
+            >
+              Duplicate
+            </div>
           </div>
         );
       },
@@ -69,19 +80,23 @@ const Datatable = () => {
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        Shop List
-        <Link to="/shops/new" className="link">
-          Add New
-        </Link>
+        <div>Shop List</div>
+
+        <div className="buttons">
+          <Link to="/shops/new" className="link">
+            Add New
+          </Link>
+          <div className="deleteButton">Delete</div>
+        </div>
       </div>
       <DataGrid
+        getRowId={(row) => row.id}
         className="datagrid"
         rows={data}
         columns={shopColumns.concat(actionColumn)}
         pageSize={10}
         rowsPerPageOptions={[10]}
         getRowHeight={() => 80}
-        checkboxSelection
       />
     </div>
   );

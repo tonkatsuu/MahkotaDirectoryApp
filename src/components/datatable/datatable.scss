@@ -11,7 +11,12 @@
     align-items: center;
     justify-content: space-between;
 
-    .link{
+    .buttons {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+     
+       .link{
       text-decoration: none;
       color: green;
       font-size: 16px;
@@ -21,8 +26,19 @@
       border-radius: 5px;
       cursor: pointer;
     }
-  }
+    .deleteButton {
+      color: red;
+      font-size: 16px;
+      font-weight: 400;
+      border: 1px solid red;
+      padding: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    }
 
+   
+  }
   .cellWithImg {
     display: flex;
     align-items: center;
@@ -70,6 +86,13 @@
       padding: 2px 5px;
       border-radius: 5px;
       color: crimson;
+      border: 1px dotted rgba(220, 20, 60, 0.6);
+      cursor: pointer;
+    }
+    .duplicateButton {
+      padding: 2px 5px;
+      border-radius: 5px;
+      color: goldenrod;
       border: 1px dotted rgba(220, 20, 60, 0.6);
       cursor: pointer;
     }

@@ -107,10 +107,10 @@ export const eventColumns = [
   {
     field: "media",
     headerName: "Media",
-    width: 200,
+    width: 100,
 
     renderCell: (params) => {
-      return <img src={params.value} height="200" width="200" />;
+      return <img src={params.value} height="80" width="80" />;
     },
   },
   {

@@ -19,7 +19,7 @@ export default function Reference({ input }) {
     setOptions(
       docs.map((doc) => {
         const docData = doc.data();
-        console.log(docData);
+        //console.log(docData);
 
         if (!docData[labelKey]) {
           throw new Error(
@@ -44,6 +44,7 @@ export default function Reference({ input }) {
                 {option.label}
               </MenuItem>
             ))}
+            <MenuItem value="">N/A</MenuItem>
           </Select>
         )}
       />
