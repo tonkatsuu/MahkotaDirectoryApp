@@ -4,8 +4,10 @@ import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
+import { AuthContext } from "../../context/AuthContext";
 
 const DatatableNavbar = ({ onChange }) => {
+  const { user } = useContext(AuthContext);
   const { darkMode, dispatch } = useContext(DarkModeContext);
 
   return (
@@ -30,11 +32,7 @@ const DatatableNavbar = ({ onChange }) => {
             )}
           </div>
           <div className="item">
-            <img
-              src="https://static-00.iconduck.com/assets.00/teddy-bear-emoji-1024x1020-s5p4nfty.png"
-              alt=""
-              className="avatar"
-            />
+            <img src={user?.photoURL} alt="" className="avatar" />
           </div>
         </div>
       </div>

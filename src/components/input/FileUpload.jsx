@@ -5,6 +5,9 @@ import { styled } from "@mui/material/styles";
 import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { useState } from "react";
 import { useController } from "react-hook-form";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import InfoIcon from "@mui/icons-material/Info";
 
 export function FileUpload({ input, ...inputFieldProps }) {
   const { field } = useController({ name: input.id });
@@ -58,7 +61,6 @@ export function FileUpload({ input, ...inputFieldProps }) {
       ) : (
         <EmptyImage />
       )}
-
       <label htmlFor={input.id}>
         <Button
           className="buttonStyle"
@@ -101,6 +103,11 @@ function EmptyImage() {
   return (
     <div className="image_box">
       <p>No image uploaded.</p>
+      <Tooltip title="Image size must be between 300x300." className="tooltip">
+        <IconButton>
+          <InfoIcon />
+        </IconButton>
+      </Tooltip>
     </div>
   );
 }

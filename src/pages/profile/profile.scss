@@ -2,35 +2,39 @@
     display: flex;
   
     .profileContainer {
-      flex: 6;
+        flex: 6;
+        color:gray;
 
       .profileContent {
         display: flex;
         flex-direction: column;
         align-items: center; 
         padding-top: 50px;
+        h1{
+            margin-bottom: 20px;
+        }
       }
       
       .profileImage {
         position: relative;
         margin-bottom: 20px; 
-        
+
         img {
-          width: 200px; 
-          height: 200px; 
-          border: 1px solid black;
+          width: 150px; 
+          height: 150px; 
           border-radius: 20%;
+          border: 1px solid gray;
         }
         
         .addButton {
           position: absolute;
           bottom: 0;
           right: 0;
-          background-color: #605e5e; 
+          background-color: gray; 
           color: white;
           border: none;
           padding: 5px 10px;
-          border-radius: 5px;
+          border-radius: 50%;
           cursor: pointer;
         }
 
@@ -44,10 +48,37 @@
         text-align: center; 
         display: flex;
         flex-direction: column;
+        align-items: center;
+        justify-content: center;
         h2 {
           margin-bottom: 10px; 
         }
-    
+        h4{
+            margin-bottom: 30px;
+        }
+        button{
+            width: 210px;
+            height:30px;
+            border: none;
+            background-color: gray;
+            color:silver;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        h5{
+            margin-bottom:5px;
+        }
+        .password-box{
+            appearance: none;
+            border: none;
+            outline: none;
+            border-bottom: .2em solid #ae979f;
+            background: rgba(#484144, .2);
+            border-radius: .2em .2em 0 0;
+            padding: .4em;
+            width:350px;
+            margin-bottom: 20px;
+        }
       }
     }
   }

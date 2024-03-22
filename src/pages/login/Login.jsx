@@ -31,20 +31,32 @@ const Login = () => {
 
   return (
     <div className="login">
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          placeholder="Email"
-          onChange={(e) => setEmail(e.target.value)}
+      <div>
+        <img
+          src="https://firebasestorage.googleapis.com/v0/b/crud-app-fae0d.appspot.com/o/public%2FMahkota%20Login.jpeg?alt=media&token=d50cbd46-8627-4c47-a93f-9b62f9ddd45d"
+          alt="mahkota logo"
         />
-        <input
-          type="password"
-          placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit">Login</button>
-        {error && <span>Wrong email or password!</span>}
-      </form>
+      </div>
+      <div className="login-content">
+        <b>Interactive Wayfinder Directory CMS</b>
+        <hr className="separator" />
+      </div>
+      <div>
+        <form onSubmit={handleLogin}>
+          <input
+            type="email"
+            placeholder="Email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button type="submit">Login</button>
+          {error && <span>Wrong email or password!</span>}
+        </form>
+      </div>
     </div>
   );
 };

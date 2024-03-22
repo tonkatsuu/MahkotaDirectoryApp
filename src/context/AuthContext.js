@@ -14,15 +14,13 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(state.currentUser));
-  }, [state.currentUser]);
 
-  useEffect(() => {
     return auth.onAuthStateChanged((user) => {
       if (user) {
         dispatch({ type: "USER", payload: user });
       }
     });
-  }, []);
+  }, [state.currentUser, auth]);
 
   return (
     <AuthContext.Provider
