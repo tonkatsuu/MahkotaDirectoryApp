@@ -1,0 +1,53 @@
+.profile {
+    display: flex;
+  
+    .profileContainer {
+      flex: 6;
+
+      .profileContent {
+        display: flex;
+        flex-direction: column;
+        align-items: center; 
+        padding-top: 50px;
+      }
+      
+      .profileImage {
+        position: relative;
+        margin-bottom: 20px; 
+        
+        img {
+          width: 200px; 
+          height: 200px; 
+          border: 1px solid black;
+          border-radius: 20%;
+        }
+        
+        .addButton {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          background-color: #605e5e; 
+          color: white;
+          border: none;
+          padding: 5px 10px;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+
+        .hidden{
+            display: none;
+        }
+
+      }
+      
+      .profileDetails {
+        text-align: center; 
+        display: flex;
+        flex-direction: column;
+        h2 {
+          margin-bottom: 10px; 
+        }
+    
+      }
+    }
+  }

@@ -1,6 +1,9 @@
 .app.dark {
   background-color: #111;
   color: rgb(156, 156, 156);
+  .login form input {
+    color: white;
+  }
 
   .chartGrid {
     stroke: rgba(228, 228, 228, 0.219);
@@ -19,7 +22,7 @@
     border-color: #333;
 
     .search {
-      border-color: gray;
+      border-color: grey;
     }
   }
 
@@ -29,21 +32,21 @@
 
     .top {
       .logo {
-        color: #999;
+        color: rgb(238, 144, 144);
       }
     }
     hr {
       border-color: #333;
     }
 
-    ul {
+    ul {  
       li {
         &:hover {
           background-color: #333;
         }
 
         .icon {
-          color: #999;
+          color: rgb(238, 144, 144);
         }
       }
     }
@@ -52,10 +55,19 @@
   .datatable {
     .datagrid {
       color: gray;
-      border: none;
-
-      .viewButton,
-      .deleteButton,
+      border-color: gray;
+      .MuiCheckbox-root {
+        color:white;
+      }
+      }
+      .viewButton{
+        color: rgb(0, 139, 137);
+        border: 1px dotted rgba(0, 139, 139, 0.596);
+      }
+      .deleteButton{
+        color: rgb(220, 20, 20);
+        border: 1px dotted rgba(220, 20, 20, 0.6);
+      }
       .cellWithStatus {
         color: gray;
         border: none;
@@ -66,4 +78,3 @@
   input{
       background-color: transparent;
   }
-}

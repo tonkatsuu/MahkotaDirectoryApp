@@ -2,12 +2,13 @@ import "./new.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import Input from "../../components/input/input";
-import { getDoc, updateDoc, doc } from "firebase/firestore";
+import { getDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useForm, FormProvider } from "react-hook-form";
 import { toast } from "react-toastify";
+import { updateEntry } from "../../utils/database";
 
 const Edit = ({ inputs, title, collectionName }) => {
   const navigate = useNavigate();
@@ -42,27 +43,11 @@ const Edit = ({ inputs, title, collectionName }) => {
     //     formData[input.id] = form.get(input.id);
     //   }
     // });
-    function sanitizeData(data) {
-      const finalData = {};
 
-      for (const [key, value] of Object.entries(data)) {
-        if (typeof value === "undefined") continue;
-
-        finalData[key] = value;
-      }
-
-      return finalData;
-    }
-    const finalData = sanitizeData(values);
-    try {
-      // Use the correct document reference in updateDoc
-      await updateDoc(doc(db, collectionName, params.id), finalData);
+    await updateEntry(collectionName, params.id, values, () => {
       navigate(-1);
       toast.success("Entity updated successfully!");
-    } catch (error) {
-      console.error("Error updating document:", error);
-      toast.error("Failed to update entity. Please try again.");
-    }
+    });
   };
 
   return (

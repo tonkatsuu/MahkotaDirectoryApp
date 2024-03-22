@@ -16,11 +16,19 @@ import Reference from "./Reference";
 const Input = ({ input }) => {
   const { register, control } = useFormContext();
 
-  /* Using useMemo to memoise the content, it renders only when any of its dependency change */
+  /* Using useMemo to memoise the conte t, it renders only when any of its dependency change */
   const content = useMemo(() => {
     switch (input.type) {
       case "text":
         return <input placeholder={input.label} {...register(input.id)} />;
+      case "textarea":
+        return (
+          <textarea
+            placeholder={input.label}
+            {...register(input.id)}
+            rows={4}
+          />
+        );
       case "select": {
         return (
           <FormControl

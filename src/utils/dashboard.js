@@ -1,7 +1,7 @@
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
+import EventOutlinedIcon from "@mui/icons-material/EventOutlined";
+import BathroomOutlinedIcon from "@mui/icons-material/BathroomOutlined";
+import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import { collection, getCountFromServer } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -13,7 +13,7 @@ export const WIDGETS_MAP = {
       link: "/shops",
     },
     icon: (
-      <PersonOutlinedIcon
+      <ShoppingCartOutlinedIcon
         className="icon"
         style={{
           color: "crimson",
@@ -34,7 +34,7 @@ export const WIDGETS_MAP = {
       link: "/category",
     },
     icon: (
-      <ShoppingCartOutlinedIcon
+      <CategoryOutlinedIcon
         className="icon"
         style={{
           backgroundColor: "rgba(218, 165, 32, 0.2)",
@@ -55,7 +55,7 @@ export const WIDGETS_MAP = {
       link: "/amenity",
     },
     icon: (
-      <MonetizationOnOutlinedIcon
+      <BathroomOutlinedIcon
         className="icon"
         style={{ backgroundColor: "rgba(0, 128, 0, 0.2)", color: "green" }}
       />
@@ -73,7 +73,7 @@ export const WIDGETS_MAP = {
       link: "/event",
     },
     icon: (
-      <AccountBalanceWalletOutlinedIcon
+      <EventOutlinedIcon
         className="icon"
         style={{
           backgroundColor: "rgba(128, 0, 128, 0.2)",

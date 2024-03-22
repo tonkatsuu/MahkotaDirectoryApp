@@ -1,6 +1,7 @@
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import CreateAccount from "./components/login/CreateAcc";
+import Profile from "./pages/profile/Profile";
 import List1 from "./pages/list/ShopList";
 import List2 from "./pages/list/CategoryList";
 import List3 from "./pages/list/AmenityList";
@@ -29,7 +30,6 @@ function App() {
   const RequireAuth = ({ children }) => {
     return currentUser ? children : <Navigate to="/login" />;
   };
-
   return (
     <div className={darkMode ? "app dark" : "app"}>
       <ToastContainer
@@ -39,9 +39,7 @@ function App() {
         newestOnTop={false}
         closeOnClick
         rtl={false}
-        pauseOnFocusLoss
         draggable
-        pauseOnHover
         theme="light"
       />
       <BrowserRouter>
@@ -198,6 +196,16 @@ function App() {
                       title="Edit Event"
                       collectionName="events"
                     />
+                  </RequireAuth>
+                }
+              />
+            </Route>
+            <Route path="profile">
+              <Route
+                index
+                element={
+                  <RequireAuth>
+                    <Profile />
                   </RequireAuth>
                 }
               />

@@ -46,9 +46,21 @@ export const shopInputs = [
     labelKey: "category_name",
   },
   {
+    id: "x_coordinate",
+    label: "X-Coordinate",
+    type: "text",
+    placeholder: "Insert X-Coordinate",
+  },
+  {
+    id: "y_coordinate",
+    label: "Y-Coordinate",
+    type: "text",
+    placeholder: "Insert Y-Coordinate",
+  },
+  {
     id: "description",
     label: "Description",
-    type: "text",
+    type: "textarea",
     placeholder: "Insert Description",
   },
 ];
@@ -86,6 +98,18 @@ export const amenityInputs = [
     label: "Size",
     type: "text",
     placeholder: "Insert Size",
+  },
+  {
+    id: "x_coordinate",
+    label: "X-Coordinate",
+    type: "text",
+    placeholder: "Insert X-Coordinate",
+  },
+  {
+    id: "y_coordinate",
+    label: "Y-Coordinate",
+    type: "text",
+    placeholder: "Insert Y-Coordinate",
   },
 ];
 

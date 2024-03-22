@@ -14,16 +14,19 @@ export const shopColumns = [
     field: "tenant_name",
     headerName: "Tenant Name",
     width: 230,
+    editable: true,
   },
   {
     field: "level",
     headerName: "Level",
     width: 150,
+    editable: true,
   },
   {
     field: "unit_no",
     headerName: "Unit No",
     width: 150,
+    editable: true,
   },
   {
     field: "entrance",
@@ -37,6 +40,7 @@ export const shopColumns = [
     field: "size",
     headerName: "Size",
     width: 150,
+    editable: true,
   },
   {
     field: "category",
@@ -53,7 +57,15 @@ export const shopColumns = [
   {
     field: "description",
     headerName: "Description",
-    width: 150,
+    width: 200,
+    editable: true,
+    renderCell: (params) => {
+      return (
+        <div style={{ whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
+          {params.value}
+        </div>
+      );
+    },
   },
   {
     field: "shop_image",
@@ -63,12 +75,25 @@ export const shopColumns = [
       return <img src={params.value} height="80" width="80" />;
     },
   },
+  {
+    field: "x_coordinate",
+    headerName: "X-Coordinate",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "y_coordinate",
+    headerName: "Y-Coordinate",
+    width: 150,
+    editable: true,
+  },
 ];
 export const categoryColumns = [
   {
     field: "category_name",
     headerName: "Name",
     width: 200,
+    editable: true,
   },
 ];
 export const amenityColumns = [
@@ -76,21 +101,37 @@ export const amenityColumns = [
     field: "amenity_name",
     headerName: "Amenity Name",
     width: 230,
+    editable: true,
   },
   {
     field: "level",
     headerName: "Level",
     width: 150,
+    editable: true,
   },
   {
     field: "unit_no",
     headerName: "Unit No",
     width: 150,
+    editable: true,
   },
   {
     field: "size",
     headerName: "Size",
     width: 150,
+    editable: true,
+  },
+  {
+    field: "x_coordinate",
+    headerName: "X-Coordinate",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "y_coordinate",
+    headerName: "Y-Coordinate",
+    width: 150,
+    editable: true,
   },
 ];
 export const eventColumns = [

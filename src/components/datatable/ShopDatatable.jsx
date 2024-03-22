@@ -1,16 +1,23 @@
 import "./datatable.scss";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridCellEditStopReasons } from "@mui/x-data-grid";
 import { shopColumns } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase";
 import { toast } from "react-toastify";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import { deleteEntryFromDb, duplicateEntry } from "../../utils/database";
-import { omit } from "lodash";
+import {
+  deleteEntryFromDb,
+  duplicateEntry,
+  updateEntry,
+} from "../../utils/database";
+import { omit, orderBy } from "lodash";
+import DatatableNavbar from "../navbar/DatatableNavbar";
+import { matchSorter } from "match-sorter";
 
 const Datatable = () => {
+  const [query, setQuery] = useState("");
+  const [selectedIds, setSelectedIds] = useState([]);
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -21,6 +28,9 @@ const Datatable = () => {
         snapShot.docs.forEach((doc) => {
           list.push({ id: doc.id, ...doc.data() });
         });
+
+        list = orderBy(list, (item) => item.id);
+
         setData(list);
       },
       (error) => {
@@ -39,14 +49,25 @@ const Datatable = () => {
     });
   };
 
+  async function handleMultipleDelete() {
+    if (selectedIds.length === 0) {
+      toast.error("Select at least one row");
+      return;
+    }
+
+    Promise.all(selectedIds.map((id) => deleteEntryFromDb("shops", id))).then(
+      () => {
+        toast.success("Rows deleted successfully!");
+      }
+    );
+  }
+
   const actionColumn = [
     {
       field: "id",
       headerName: "Action",
       width: 230,
       renderCell: (params) => {
-        console.log(params.row);
-
         return (
           <div className="cellAction">
             <Link
@@ -64,6 +85,7 @@ const Datatable = () => {
             <div
               className="duplicateButton"
               onClick={(e) => {
+                e.stopPropagation();
                 e.preventDefault();
                 duplicateEntry("shops", omit(params.row, "id"), () => {
                   toast.success("Shop duplicated successfully!");
@@ -77,28 +99,55 @@ const Datatable = () => {
       },
     },
   ];
-  return (
-    <div className="datatable">
-      <div className="datatableTitle">
-        <div>Shop List</div>
 
-        <div className="buttons">
-          <Link to="/shops/new" className="link">
-            Add New
-          </Link>
-          <div className="deleteButton">Delete</div>
-        </div>
-      </div>
-      <DataGrid
-        getRowId={(row) => row.id}
-        className="datagrid"
-        rows={data}
-        columns={shopColumns.concat(actionColumn)}
-        pageSize={10}
-        rowsPerPageOptions={[10]}
-        getRowHeight={() => 80}
+  const filteredData = query
+    ? matchSorter(data, query, {
+        keys: ["tenant_name", "unit_no"],
+      })
+    : data;
+
+  return (
+    <>
+      <DatatableNavbar
+        onChange={(e) => {
+          setQuery(e.target.value);
+        }}
       />
-    </div>
+      <div className="datatable">
+        <div className="datatableTitle">
+          <div>Shop List</div>
+          <div className="buttons">
+            <Link to="/shops/new" className="link">
+              Add New
+            </Link>
+            {selectedIds.length > 0 && (
+              <div className="deleteButton" onClick={handleMultipleDelete}>
+                Delete
+              </div>
+            )}
+          </div>
+        </div>
+        <DataGrid
+          getRowId={(row) => row.id}
+          className="datagrid"
+          rows={filteredData}
+          columns={shopColumns.concat(actionColumn)}
+          pageSize={100}
+          rowsPerPageOptions={[100]}
+          getRowHeight={() => 80}
+          checkboxSelection
+          onStateChange={(state) => {
+            setSelectedIds(state.selection);
+          }}
+          onCellEditStop={(params, e) => {
+            updateEntry("shops", params.id, {
+              ...params.row,
+              [params.field]: e.target.value,
+            });
+          }}
+        />
+      </div>
+    </>
   );
 };
 export default Datatable;

@@ -3,11 +3,21 @@ import { DataGrid } from "@mui/x-data-grid";
 import { amenityColumns } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase";
 import { toast } from "react-toastify";
+import {
+  deleteEntryFromDb,
+  duplicateEntry,
+  updateEntry,
+} from "../../utils/database";
+import { omit, orderBy } from "lodash";
+import DatatableNavbar from "../navbar/DatatableNavbar";
+import { matchSorter } from "match-sorter";
 
 const Datatable = () => {
+  const [query, setQuery] = useState("");
+  const [selectedIds, setSelectedIds] = useState([]);
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -18,6 +28,9 @@ const Datatable = () => {
         snapShot.docs.forEach((doc) => {
           list.push({ id: doc.id, ...doc.data() });
         });
+
+        list = orderBy(list, (item) => item.id);
+
         setData(list);
       },
       (error) => {
@@ -31,20 +44,29 @@ const Datatable = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    try {
-      await deleteDoc(doc(db, "amenities", id));
-      setData(data.filter((item) => item.id !== id));
-      toast.success("Entity deleted successfully!");
-    } catch (err) {
-      console.log(err);
-    }
+    await deleteEntryFromDb("amenities", id, () => {
+      toast.success("Amenity deleted successfully!");
+    });
   };
+
+  async function handleMultipleDelete() {
+    if (selectedIds.length === 0) {
+      toast.error("Select at least one row");
+      return;
+    }
+
+    Promise.all(
+      selectedIds.map((id) => deleteEntryFromDb("amenities", id))
+    ).then(() => {
+      toast.success("Rows deleted successfully!");
+    });
+  }
 
   const actionColumn = [
     {
       field: "action",
       headerName: "Action",
-      width: 150,
+      width: 230,
       renderCell: (params) => {
         return (
           <div className="cellAction">
@@ -60,28 +82,69 @@ const Datatable = () => {
             >
               Delete
             </div>
+            <div
+              className="duplicateButton"
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                duplicateEntry("amenities", omit(params.row, "id"), () => {
+                  toast.success("Amenity duplicated successfully!");
+                });
+              }}
+            >
+              Duplicate
+            </div>
           </div>
         );
       },
     },
   ];
+
+  const filteredData = matchSorter(data, query, {
+    keys: ["amenity_name", "unit_no"],
+  });
+
   return (
-    <div className="datatable">
-      <div className="datatableTitle">
-        Amenity List
-        <Link to="/amenity/new" className="link">
-          Add New
-        </Link>
-      </div>
-      <DataGrid
-        className="datagrid"
-        rows={data}
-        columns={amenityColumns.concat(actionColumn)}
-        pageSize={10}
-        rowsPerPageOptions={[10]}
-        checkboxSelection
+    <>
+      <DatatableNavbar
+        onChange={(e) => {
+          setQuery(e.target.value);
+        }}
       />
-    </div>
+      <div className="datatable">
+        <div className="datatableTitle">
+          <div>Amenity List</div>
+          <div className="buttons">
+            <Link to="/amenity/new" className="link">
+              Add New
+            </Link>
+            {selectedIds.length > 0 && (
+              <div className="deleteButton" onClick={handleMultipleDelete}>
+                Delete
+              </div>
+            )}
+          </div>
+        </div>
+        <DataGrid
+          getRowId={(row) => row.id}
+          className="datagrid"
+          rows={filteredData}
+          columns={amenityColumns.concat(actionColumn)}
+          pageSize={100}
+          rowsPerPageOptions={[100]}
+          checkboxSelection
+          onStateChange={(state) => {
+            setSelectedIds(state.selection);
+          }}
+          onCellEditStop={(params, e) => {
+            updateEntry("amenities", params.id, {
+              ...params.row,
+              [params.field]: e.target.value,
+            });
+          }}
+        />
+      </div>
+    </>
   );
 };
 export default Datatable;

@@ -43,6 +43,13 @@ const New = ({ inputs, title, collectionName }) => {
       return finalData;
     }
     const finalData = sanitizeData(values);
+
+    const isFormInvalid = Object.keys(finalData).length === 0;
+    if (isFormInvalid) {
+      toast.error("Please fill in at least one input!");
+      return;
+    }
+
     await addDoc(collection(db, collectionName), finalData);
     navigate(-1);
     toast.success("Entity created successfully!");

@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "youtube2022",
+    "public": "build",
     "ignore": [
       "firebase.json",
       "**/.*",
