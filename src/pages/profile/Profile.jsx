@@ -4,14 +4,23 @@ import Navbar from "../../components/navbar/Navbar";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { updateProfile, updatePassword } from "firebase/auth";
+import {
+  updateProfile,
+  updatePassword,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+} from "firebase/auth";
 import { toast } from "react-toastify";
 import { auth } from "../../firebase";
 import LockResetIcon from "@mui/icons-material/LockReset";
+import { isAdmin } from "../../utils/admin";
 
 const Profile = () => {
   const [uploadStatus, setUploadStatus] = useState("Idle");
   const { user } = useContext(AuthContext);
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const [photo, setPhoto] = useState(
     user?.photoURL ??
@@ -49,6 +58,56 @@ const Profile = () => {
       });
   }
 
+  function handleChangePassword() {
+    if (!oldPassword) {
+      toast.error("Please enter your old password");
+      return;
+    }
+
+    if (!newPassword || !confirmPassword) {
+      toast.error("Please enter password!");
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      toast.error("Passwords do not match!");
+      return;
+    }
+
+    const creds = EmailAuthProvider.credential(
+      auth.currentUser.email,
+      oldPassword
+    );
+
+    toast.loading("Updating your password...");
+
+    reauthenticateWithCredential(auth.currentUser, creds)
+      .then(() => {
+        updatePassword(auth.currentUser, newPassword)
+          .then(() => {
+            setOldPassword("");
+            setNewPassword("");
+            setConfirmPassword("");
+            setShowPasswordFields(false);
+
+            toast.dismiss();
+            toast.success("Password updated successfully!");
+          })
+          .catch((error) => {
+            console.log(error);
+            toast.dismiss();
+            toast.error(
+              "Could not change your password this time, Please try again!"
+            );
+          });
+      })
+      .catch((error) => {
+        toast.dismiss();
+        console.log(error);
+        toast.error("Wrong password!");
+      });
+  }
+
   return (
     <div className="profile">
       <Sidebar />
@@ -69,7 +128,7 @@ const Profile = () => {
           </div>
           <div className="profileDetails">
             <h2>Welcome, {user?.email}!</h2>
-            <h4>User</h4>
+            <h4>{isAdmin(user) ? "Admin" : "User"}</h4>
 
             {showPasswordFields ? (
               <div className="profileDetails">
@@ -77,21 +136,27 @@ const Profile = () => {
                 <input
                   type="password"
                   placeholder="Enter"
+                  value={oldPassword}
+                  onChange={(e) => setOldPassword(e.target.value)}
                   className="password-box"
                 />
                 <h5>Enter New Password</h5>
                 <input
                   type="password"
                   placeholder="Enter"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
                   className="password-box"
                 />
                 <h5>Confirm New Password</h5>
                 <input
                   type="password"
                   placeholder="Enter"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   className="password-box"
                 />
-                <button>Enter</button>
+                <button onClick={handleChangePassword}>Update Password</button>
               </div>
             ) : (
               <div>

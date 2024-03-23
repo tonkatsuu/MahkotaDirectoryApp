@@ -80,12 +80,14 @@ export const shopColumns = [
     headerName: "X-Coordinate",
     width: 150,
     editable: true,
+    hidden: true,
   },
   {
     field: "y_coordinate",
     headerName: "Y-Coordinate",
     width: 150,
     editable: true,
+    hidden: true,
   },
 ];
 export const categoryColumns = [
@@ -126,12 +128,14 @@ export const amenityColumns = [
     headerName: "X-Coordinate",
     width: 150,
     editable: true,
+    hidden: true,
   },
   {
     field: "y_coordinate",
     headerName: "Y-Coordinate",
     width: 150,
     editable: true,
+    hidden: true,
   },
 ];
 export const eventColumns = [

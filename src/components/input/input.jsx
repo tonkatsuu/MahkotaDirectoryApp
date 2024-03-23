@@ -12,18 +12,35 @@ import Checkbox from "@mui/material/Checkbox";
 import { useFormContext, Controller } from "react-hook-form";
 import dayjs from "dayjs";
 import Reference from "./Reference";
+import { isAdmin } from "../../utils/admin";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 const Input = ({ input }) => {
+  const { user } = useContext(AuthContext);
   const { register, control } = useFormContext();
+
+  // Edit is allowed only if `editable` prop is true or the user is admin
+  const isEditable = input?.editable || isAdmin(user);
+
+  // Show input only if `visible` prop is true or the user is admin
+  const visible = input?.visible || isAdmin(user);
 
   /* Using useMemo to memoise the content, it renders only when any of its dependency change */
   const content = useMemo(() => {
     switch (input.type) {
       case "text":
-        return <input placeholder={input.label} {...register(input.id)} />;
+        return (
+          <input
+            disabled={!isEditable}
+            placeholder={input.label}
+            {...register(input.id)}
+          />
+        );
       case "textarea":
         return (
           <textarea
+            disabled={!isEditable}
             placeholder={input.label}
             {...register(input.id)}
             rows={4}
@@ -39,7 +56,12 @@ const Input = ({ input }) => {
               name={input.id}
               control={control}
               render={({ field }) => (
-                <Select key={field.value} defaultValue={field.value} {...field}>
+                <Select
+                  key={field.value}
+                  defaultValue={field.value}
+                  {...field}
+                  disabled={!isEditable}
+                >
                   {input.options.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
                       {option.label}
@@ -65,6 +87,7 @@ const Input = ({ input }) => {
                     sx={{ m: 1 }}
                     {...field}
                     checked={field.value}
+                    disabled={!isEditable}
                   />
                 )}
               />
@@ -86,6 +109,7 @@ const Input = ({ input }) => {
                   onChange={(date) => {
                     field.onChange(dayjs(date).format("MM/DD/YYYY"));
                   }}
+                  disabled={!isEditable}
                 />
               )}
             />
@@ -103,7 +127,11 @@ const Input = ({ input }) => {
   }, [register, input, control]);
 
   return (
-    <div className="formInput">
+    <div
+      className={`formInput ${!isEditable && "disabled"} ${
+        !visible && "hidden"
+      }`}
+    >
       <label>
         <b>{input.label}</b>
       </label>

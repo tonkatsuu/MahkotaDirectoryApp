@@ -100,9 +100,11 @@ const Datatable = () => {
     },
   ];
 
-  const filteredData = matchSorter(data, query, {
-    keys: ["category_name"],
-  });
+  const filteredData = query
+    ? matchSorter(data, query, {
+        keys: ["category_name"],
+      })
+    : data;
 
   return (
     <>

@@ -9,7 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import InfoIcon from "@mui/icons-material/Info";
 
-export function FileUpload({ input, ...inputFieldProps }) {
+export function FileUpload({ input, disabled, ...inputFieldProps }) {
   const { field } = useController({ name: input.id });
 
   const [uploadStatus, setUploadStatus] = useState("Idle");
@@ -53,7 +53,7 @@ export function FileUpload({ input, ...inputFieldProps }) {
   });
 
   return (
-    <div>
+    <div className={disabled && "disabled"}>
       {field.value ? (
         <div className="image_box">
           <img src={field.value} alt={input.label} className="edit_image" />
@@ -67,10 +67,12 @@ export function FileUpload({ input, ...inputFieldProps }) {
           component="label"
           variant="contained"
           startIcon={<DriveFolderUploadOutlinedIcon />}
+          disabled={disabled}
         >
           Upload
           <VisuallyHiddenInput
             type="file"
+            disabled={disabled}
             {...inputFieldProps}
             onChange={handleUploadFile}
           />

@@ -14,11 +14,15 @@ import {
 import { omit, orderBy } from "lodash";
 import DatatableNavbar from "../navbar/DatatableNavbar";
 import { matchSorter } from "match-sorter";
+import { isAdmin } from "../../utils/admin";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 const Datatable = () => {
   const [query, setQuery] = useState("");
   const [selectedIds, setSelectedIds] = useState([]);
   const [data, setData] = useState([]);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const unsub = onSnapshot(
@@ -61,6 +65,11 @@ const Datatable = () => {
       }
     );
   }
+
+  const columns = shopColumns.filter((column) => {
+    // only show columns if user is admin or `hidden` is false
+    return isAdmin(user) || !column?.hidden;
+  });
 
   const actionColumn = [
     {
@@ -131,7 +140,7 @@ const Datatable = () => {
           getRowId={(row) => row.id}
           className="datagrid"
           rows={filteredData}
-          columns={shopColumns.concat(actionColumn)}
+          columns={columns.concat(actionColumn)}
           pageSize={100}
           rowsPerPageOptions={[100]}
           getRowHeight={() => 80}

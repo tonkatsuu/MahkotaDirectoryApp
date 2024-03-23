@@ -14,11 +14,15 @@ import {
 import { omit, orderBy } from "lodash";
 import DatatableNavbar from "../navbar/DatatableNavbar";
 import { matchSorter } from "match-sorter";
+import { isAdmin } from "../../utils/admin";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 const Datatable = () => {
   const [query, setQuery] = useState("");
   const [selectedIds, setSelectedIds] = useState([]);
   const [data, setData] = useState([]);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const unsub = onSnapshot(
@@ -62,6 +66,11 @@ const Datatable = () => {
     });
   }
 
+  const columns = amenityColumns.filter((column) => {
+    // only show columns if user is admin or `hidden` is false
+    return isAdmin(user) || !column?.hidden;
+  });
+
   const actionColumn = [
     {
       field: "action",
@@ -100,9 +109,11 @@ const Datatable = () => {
     },
   ];
 
-  const filteredData = matchSorter(data, query, {
-    keys: ["amenity_name", "unit_no"],
-  });
+  const filteredData = query
+    ? matchSorter(data, query, {
+        keys: ["amenity_name"],
+      })
+    : data;
 
   return (
     <>
@@ -129,7 +140,7 @@ const Datatable = () => {
           getRowId={(row) => row.id}
           className="datagrid"
           rows={filteredData}
-          columns={amenityColumns.concat(actionColumn)}
+          columns={columns.concat(actionColumn)}
           pageSize={100}
           rowsPerPageOptions={[100]}
           checkboxSelection
