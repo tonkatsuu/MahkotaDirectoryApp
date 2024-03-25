@@ -12,8 +12,10 @@ import InfoIcon from "@mui/icons-material/Info";
 export function FileUpload({ input, disabled, ...inputFieldProps }) {
   const { field } = useController({ name: input.id });
 
-  const [uploadStatus, setUploadStatus] = useState("Idle");
+  const tooltipID = input.id;
+  console.log(tooltipID);
 
+  const [uploadStatus, setUploadStatus] = useState("Idle");
   function handleUploadFile(e) {
     const file = e.target.files[0];
 
@@ -52,6 +54,15 @@ export function FileUpload({ input, disabled, ...inputFieldProps }) {
     width: 1,
   });
 
+  let tooltipText = "";
+  if (tooltipID === "logo_image") {
+    tooltipText = "Logo Image";
+  } else if (tooltipID === "shop_image") {
+    tooltipText = "Shop Image";
+  } else if (tooltipID === "media") {
+    tooltipText = "Media";
+  }
+
   return (
     <div className={disabled && "disabled"}>
       {field.value ? (
@@ -59,7 +70,7 @@ export function FileUpload({ input, disabled, ...inputFieldProps }) {
           <img src={field.value} alt={input.label} className="edit_image" />
         </div>
       ) : (
-        <EmptyImage />
+        <EmptyImage tooltipID={tooltipID} />
       )}
       <label htmlFor={input.id}>
         <Button
@@ -101,11 +112,20 @@ export function FileUpload({ input, disabled, ...inputFieldProps }) {
 
 export default FileUpload;
 
-function EmptyImage() {
+function EmptyImage({ tooltipID }) {
+  let tooltipText = "";
+  if (tooltipID === "logo_image") {
+    tooltipText = "Image resolution should be: 180x100px";
+  } else if (tooltipID === "shop_image") {
+    tooltipText = "Image resolution should be: 600x250px";
+  } else if (tooltipID === "media") {
+    tooltipText = "Image resolution should be: 1080x1080px";
+  }
+  console.log(tooltipText);
   return (
     <div className="image_box">
       <p>No image uploaded.</p>
-      <Tooltip title="Image size must be between 300x300." className="tooltip">
+      <Tooltip title={tooltipText} className="tooltip">
         <IconButton>
           <InfoIcon />
         </IconButton>

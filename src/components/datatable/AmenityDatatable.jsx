@@ -85,24 +85,28 @@ const Datatable = () => {
             >
               <div className="viewButton">Edit</div>
             </Link>
-            <div
-              className="deleteButton"
-              onClick={() => handleDelete(params.row.id)}
-            >
-              Delete
-            </div>
-            <div
-              className="duplicateButton"
-              onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                duplicateEntry("amenities", omit(params.row, "id"), () => {
-                  toast.success("Amenity duplicated successfully!");
-                });
-              }}
-            >
-              Duplicate
-            </div>
+            {isAdmin(user) && (
+              <>
+                <div
+                  className="deleteButton"
+                  onClick={() => handleDelete(params.row.id)}
+                >
+                  Delete
+                </div>
+                <div
+                  className="duplicateButton"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    duplicateEntry("amenities", omit(params.row, "id"), () => {
+                      toast.success("Amenity duplicated successfully!");
+                    });
+                  }}
+                >
+                  Duplicate
+                </div>
+              </>
+            )}
           </div>
         );
       },
@@ -126,10 +130,12 @@ const Datatable = () => {
         <div className="datatableTitle">
           <div>Amenity List</div>
           <div className="buttons">
-            <Link to="/amenity/new" className="link">
-              Add New
-            </Link>
-            {selectedIds.length > 0 && (
+            {isAdmin(user) && (
+              <Link to="/amenity/new" className="link">
+                Add New
+              </Link>
+            )}
+            {selectedIds.length > 0 && isAdmin(user) && (
               <div className="deleteButton" onClick={handleMultipleDelete}>
                 Delete
               </div>

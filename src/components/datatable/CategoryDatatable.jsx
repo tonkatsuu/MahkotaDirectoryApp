@@ -14,11 +14,15 @@ import {
 import { omit, orderBy } from "lodash";
 import DatatableNavbar from "../navbar/DatatableNavbar";
 import { matchSorter } from "match-sorter";
+import { isAdmin } from "../../utils/admin";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 const Datatable = () => {
   const [query, setQuery] = useState("");
   const [selectedIds, setSelectedIds] = useState([]);
   const [data, setData] = useState([]);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const unsub = onSnapshot(
@@ -82,18 +86,22 @@ const Datatable = () => {
             >
               Delete
             </div>
-            <div
-              className="duplicateButton"
-              onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                duplicateEntry("categories", omit(params.row, "id"), () => {
-                  toast.success("Category duplicated successfully!");
-                });
-              }}
-            >
-              Duplicate
-            </div>
+            {isAdmin(user) && (
+              <>
+                <div
+                  className="duplicateButton"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    duplicateEntry("categories", omit(params.row, "id"), () => {
+                      toast.success("Category duplicated successfully!");
+                    });
+                  }}
+                >
+                  Duplicate
+                </div>
+              </>
+            )}
           </div>
         );
       },
