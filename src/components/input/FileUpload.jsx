@@ -13,7 +13,7 @@ export function FileUpload({ input, disabled, ...inputFieldProps }) {
   const { field } = useController({ name: input.id });
 
   const tooltipID = input.id;
-  console.log(tooltipID);
+  //console.log(tooltipID);
 
   const [uploadStatus, setUploadStatus] = useState("Idle");
   function handleUploadFile(e) {
@@ -121,7 +121,7 @@ function EmptyImage({ tooltipID }) {
   } else if (tooltipID === "media") {
     tooltipText = "Image resolution should be: 1080x1080px";
   }
-  console.log(tooltipText);
+  //console.log(tooltipText);
   return (
     <div className="image_box">
       <p>No image uploaded.</p>

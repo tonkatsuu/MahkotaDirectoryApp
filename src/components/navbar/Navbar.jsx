@@ -4,6 +4,7 @@ import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import { AuthContext } from "../../context/AuthContext";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const { user } = useContext(AuthContext);
@@ -28,7 +29,9 @@ const Navbar = () => {
             )}
           </div>
           <div className="item">
-            <img src={user?.photoURL} alt="" className="avatar" />
+            <Link to="/profile" style={{ textDecoration: "none" }}>
+              <img src={user?.photoURL} alt="" className="avatar" />
+            </Link>
           </div>
         </div>
       </div>

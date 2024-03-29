@@ -161,7 +161,7 @@ const Profile = () => {
             ) : (
               <div>
                 <button onClick={() => setShowPasswordFields(true)}>
-                  <LockResetIcon />
+                  <b>Change Password</b>
                 </button>
               </div>
             )}

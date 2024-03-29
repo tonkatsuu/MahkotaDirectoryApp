@@ -20,13 +20,11 @@ export const shopColumns = [
     field: "level",
     headerName: "Level",
     width: 150,
-    editable: true,
   },
   {
     field: "unit_no",
     headerName: "Unit No",
     width: 150,
-    editable: true,
   },
   {
     field: "entrance",
@@ -40,7 +38,6 @@ export const shopColumns = [
     field: "size",
     headerName: "Size",
     width: 150,
-    editable: true,
   },
   {
     field: "category",
@@ -79,14 +76,12 @@ export const shopColumns = [
     field: "x_coordinate",
     headerName: "X-Coordinate",
     width: 150,
-    editable: true,
     hidden: true,
   },
   {
     field: "y_coordinate",
     headerName: "Y-Coordinate",
     width: 150,
-    editable: true,
     hidden: true,
   },
 ];
@@ -109,32 +104,27 @@ export const amenityColumns = [
     field: "level",
     headerName: "Level",
     width: 150,
-    editable: true,
   },
   {
     field: "unit_no",
     headerName: "Unit No",
     width: 150,
-    editable: true,
   },
   {
     field: "size",
     headerName: "Size",
     width: 150,
-    editable: true,
   },
   {
     field: "x_coordinate",
     headerName: "X-Coordinate",
     width: 150,
-    editable: true,
     hidden: true,
   },
   {
     field: "y_coordinate",
     headerName: "Y-Coordinate",
     width: 150,
-    editable: true,
     hidden: true,
   },
 ];
@@ -148,6 +138,7 @@ export const eventColumns = [
     field: "name",
     headerName: "Name",
     width: 150,
+    editable: true,
   },
   {
     field: "media",

@@ -5,6 +5,7 @@ import { useContext } from "react";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import { AuthContext } from "../../context/AuthContext";
+import { Link } from "react-router-dom";
 
 const DatatableNavbar = ({ onChange }) => {
   const { user } = useContext(AuthContext);
@@ -32,7 +33,9 @@ const DatatableNavbar = ({ onChange }) => {
             )}
           </div>
           <div className="item">
-            <img src={user?.photoURL} alt="" className="avatar" />
+            <Link to="/profile" style={{ textDecoration: "none" }}>
+              <img src={user?.photoURL} alt="" className="avatar" />
+            </Link>
           </div>
         </div>
       </div>

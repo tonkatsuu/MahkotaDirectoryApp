@@ -35,7 +35,7 @@ export default function DashboardPieChart() {
 
   return (
     <div className="piechart">
-      <p className="title">Shops Availability</p>
+      <p className="title">Occupancy Rate</p>
       <PieChart
         colors={["#ED7B7B", "#BDED7B"]}
         series={[
